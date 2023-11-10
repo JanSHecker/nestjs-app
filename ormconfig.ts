@@ -12,4 +12,5 @@ export const getDataBaseConfig = (
   database: config.get('POSTGRES_DB'),
   autoLoadEntities: true,
   synchronize: true,
+  dropSchema: true,
 });

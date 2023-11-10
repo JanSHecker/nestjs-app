@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
+import { LolAPIService } from './lolAPI.service';
 
 @Controller()
 export class AppController {
@@ -9,10 +10,10 @@ export class AppController {
     this.appService = appService;
   }
 
-  @Get('lolInput')
-  getHello(): object {
-    return this.appService.getLolInput();
-  }
+  // @Get('lolInput')
+  // getHello(): object {
+  //   return this.LolAPIService.getLolInput();
+  // }
   @Get('runGame')
   runGame() {
     this.appService.runGame();

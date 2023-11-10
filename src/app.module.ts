@@ -11,6 +11,13 @@ import { Team } from 'src/entities/team.entity';
 import { Punishment } from 'src/entities/punishment.entity';
 import { Game } from 'src/entities/game.entity';
 import { Event } from 'src/entities/event.entity';
+import { LolAPIService } from './lolAPI.service';
+import { ChampionService } from './champion.service';
+import { GameService } from './game.service';
+import { TeamService } from './team.service';
+import { TakedownService } from './takedown.service';
+import { EventService } from './event.service';
+import { PunishmentService } from './punishment.service';
 
 @Module({
   imports: [
@@ -27,6 +34,15 @@ import { Event } from 'src/entities/event.entity';
     ]),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    LolAPIService,
+    ChampionService,
+    GameService,
+    TeamService,
+    TakedownService,
+    EventService,
+    PunishmentService,
+  ],
 })
 export class AppModule {}
