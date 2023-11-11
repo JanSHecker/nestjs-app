@@ -18,9 +18,6 @@ export class Player {
   @Column()
   playerName: string;
 
-  @Column()
-  lastName: string;
-
   @ManyToOne(() => Team, (team) => team.players)
   team: Team;
 
