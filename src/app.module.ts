@@ -18,6 +18,7 @@ import { TeamService } from './team.service';
 import { TakedownService } from './takedown.service';
 import { EventService } from './event.service';
 import { PunishmentService } from './punishment.service';
+import { PlayerService } from './player.service';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { PunishmentService } from './punishment.service';
     TakedownService,
     EventService,
     PunishmentService,
+    PlayerService,
   ],
 })
 export class AppModule {}

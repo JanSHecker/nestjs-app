@@ -24,4 +24,20 @@ export class ChampionService {
       .getOne();
     return champion;
   }
+  async getAllChampions(gameId) {
+    const allChampions = await this.championRepository
+      .createQueryBuilder('champion')
+      .leftJoinAndSelect('champion.team', 'team')
+      .andWhere('team.game = :gameID', { gameID: gameId })
+      .getMany();
+    const champions = {
+      blue: allChampions.filter(function (champion) {
+        return champion.team.teamName === 0;
+      }),
+      red: allChampions.filter(function (champion) {
+        return champion.team.teamName === 1;
+      }),
+    };
+    return champions;
+  }
 }

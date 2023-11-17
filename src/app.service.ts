@@ -43,7 +43,6 @@ export class AppService {
       this.saveEvents(newEvents, game);
 
       gameEnded = await this.eventService.hasGameEnded(game);
-      console.log(gameEnded);
     }
   }
 
