@@ -10,9 +10,10 @@ export class PlayerService {
     private readonly playerRepository: Repository<Player>,
   ) {}
 
-  createPlayer(playerData: Partial<Player>): Promise<Player> {
-    const player = this.playerRepository.create(playerData);
-    return this.playerRepository.save(player);
+  async createPlayer(playerData: Partial<Player>) {
+    const player = await this.playerRepository.create(playerData);
+    await this.playerRepository.save(player);
+    return player;
   }
   async getAllPlayers(gameId) {
     const allPlayers = await this.playerRepository
@@ -42,6 +43,16 @@ export class PlayerService {
         team: teamId,
       })
       .where('playerId =:playerID', { playerID: playerId })
+      .execute();
+  }
+  async chooseChampion(playerChampionPair) {
+    await this.playerRepository
+      .createQueryBuilder('player')
+      .update(Player)
+      .set({
+        champion: playerChampionPair.champion,
+      })
+      .where('playerId =:playerID', { playerID: playerChampionPair.player })
       .execute();
   }
 }

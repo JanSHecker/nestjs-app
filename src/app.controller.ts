@@ -24,8 +24,8 @@ export class AppController {
     return { message: 'The game is running!' };
   }
   @Post('createPlayer')
-  createPlayer(@Body() playerData) {
-    this.playerService.createPlayer(playerData);
+  async createPlayer(@Body() playerData) {
+    return await this.playerService.createPlayer(playerData);
   }
   @Get('allPlayers')
   getAllPlayers(@Query('id') gameId) {
@@ -36,7 +36,11 @@ export class AppController {
     this.playerService.joinTeam(playerTeamPair.player, playerTeamPair.team);
   }
   @Get('getAllChampions')
-  getAllChampions(@Body() game) {
-    return this.championService.getAllChampions(game.id);
+  getAllChampions(@Query('id') game) {
+    return this.championService.getAllChampions(game);
+  }
+  @Post('chooseChampion')
+  chooseChampion(@Body() playerChampionPair) {
+    this.playerService.chooseChampion(playerChampionPair);
   }
 }

@@ -7,6 +7,7 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
+  JoinColumn,
 } from 'typeorm';
 import { Team } from './team.entity';
 import { Player } from './player.entity';
@@ -15,7 +16,7 @@ import { Takedown } from './takedown.entity';
 @Entity()
 export class Champion {
   @PrimaryGeneratedColumn()
-  ChampionID: number;
+  championId: number;
 
   @Column()
   championName: string;

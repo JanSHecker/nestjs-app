@@ -28,6 +28,7 @@ export class ChampionService {
     const allChampions = await this.championRepository
       .createQueryBuilder('champion')
       .leftJoinAndSelect('champion.team', 'team')
+      .leftJoinAndSelect('champion.player', 'player')
       .andWhere('team.game = :gameID', { gameID: gameId })
       .getMany();
     const champions = {

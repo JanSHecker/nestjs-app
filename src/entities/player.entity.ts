@@ -5,11 +5,13 @@ import {
   ManyToOne,
   OneToOne,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { Team } from './team.entity';
 import { Champion } from './champion.entity';
 import { Punishment } from './punishment.entity';
 import { Game } from './game.entity';
+import { Reward } from './reward.entity';
 
 @Entity()
 export class Player {
@@ -24,9 +26,13 @@ export class Player {
   @ManyToOne(() => Game, (game) => game.players)
   game: Game;
 
-  @OneToOne(() => Champion, (champion) => champion.player)
+  @OneToOne(() => Champion, { cascade: true })
+  @JoinColumn()
   champion: Champion;
 
   @OneToMany(() => Punishment, (punishment) => punishment.player)
   punishments: Punishment[];
+
+  @OneToMany(() => Reward, (reward) => reward.player)
+  rewards: Reward[];
 }

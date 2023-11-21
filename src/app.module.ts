@@ -19,6 +19,7 @@ import { TakedownService } from './takedown.service';
 import { EventService } from './event.service';
 import { PunishmentService } from './punishment.service';
 import { PlayerService } from './player.service';
+import { Reward } from './entities/reward.entity';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { PlayerService } from './player.service';
       Event,
       Player,
       Team,
+      Reward,
     ]),
   ],
   controllers: [AppController],

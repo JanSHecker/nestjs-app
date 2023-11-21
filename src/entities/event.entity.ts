@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Game } from './game.entity';
 import { Takedown } from './takedown.entity';
+import { Reward } from './reward.entity';
 
 @Entity()
 export class Event {
@@ -26,4 +27,8 @@ export class Event {
   @OneToOne(() => Takedown, { cascade: true })
   @JoinColumn()
   takedown: Takedown;
+
+  @OneToOne(() => Reward, { cascade: true })
+  @JoinColumn()
+  reward: Reward;
 }
