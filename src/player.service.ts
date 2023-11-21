@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Player } from './entities/player.entity';
+import { PunishmentService } from './punishment.service';
 
 @Injectable()
 export class PlayerService {
@@ -54,5 +55,12 @@ export class PlayerService {
       })
       .where('playerId =:playerID', { playerID: playerChampionPair.player })
       .execute();
+  }
+
+  async getPunishmentsAndRewards(playerId) {
+    const pNR = {
+      punishments: PunishmentService.getPunishments(playerid),
+      rewards: RewardService.getrewards(playerId),
+    };
   }
 }

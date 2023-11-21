@@ -43,4 +43,8 @@ export class AppController {
   chooseChampion(@Body() playerChampionPair) {
     this.playerService.chooseChampion(playerChampionPair);
   }
+  @Get('Punishments&Rewards')
+  getPunishmentsAndRewards(@Query('id') player) {
+    return this.playerService.getPunishmentsAndRewards(player);
+  }
 }
