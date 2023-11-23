@@ -3,6 +3,8 @@ import { AppService } from './app.service';
 import { LolAPIService } from './lolAPI.service';
 import { PlayerService } from './player.service';
 import { ChampionService } from './champion.service';
+import { GameService } from './game.service';
+import { PunishmentService } from './punishment.service';
 
 @Controller()
 export class AppController {
@@ -11,6 +13,8 @@ export class AppController {
     private readonly lolApiService: LolAPIService,
     private readonly playerService: PlayerService,
     private readonly championService: ChampionService,
+    private readonly gameService: GameService,
+    private readonly punishmentService: PunishmentService,
   ) {}
 
   @Get('lolInput')
@@ -46,5 +50,17 @@ export class AppController {
   @Get('Punishments&Rewards')
   getPunishmentsAndRewards(@Query('id') player) {
     return this.playerService.getPunishmentsAndRewards(player);
+  }
+  @Post('Dummygame')
+  createDummygame(@Body() game) {
+    this.gameService.createDummygame(game.id);
+  }
+  @Post('createPunishment')
+  createPunishment(@Body() punishment) {
+    this.punishmentService.createPunishment(punishment);
+  }
+  @Get('kda')
+  getKDA(@Query('id') champion) {
+    return this.championService.getKDA(champion);
   }
 }

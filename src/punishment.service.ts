@@ -14,4 +14,13 @@ export class PunishmentService {
     const punishment = this.punishmentRepository.create(punishmentData);
     return this.punishmentRepository.save(punishment);
   }
+  async getPunishments(playerId) {
+    return await this.punishmentRepository
+      .createQueryBuilder('punishment')
+      .leftJoinAndSelect('punishment.player', 'player')
+      .where('punishment.player =:playerID', { playerID: playerId })
+      .leftJoinAndSelect('punishment.takedown', 'takedown')
+      .leftJoinAndSelect('takedown.killer', 'killer')
+      .getMany();
+  }
 }

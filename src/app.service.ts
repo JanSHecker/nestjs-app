@@ -8,6 +8,8 @@ import { TeamService } from './team.service';
 import { TakedownService } from './takedown.service';
 import { EventService } from './event.service';
 import { PunishmentService } from './punishment.service';
+import { PlayerService } from './player.service';
+import { RewardService } from './reward.service';
 
 @Injectable()
 export class AppService {
@@ -19,6 +21,8 @@ export class AppService {
     private takedownService: TakedownService,
     private eventService: EventService,
     private punishmentService: PunishmentService,
+    private playerService: PlayerService,
+    private rewardService: RewardService,
   ) {}
 
   getHello(): string {
@@ -105,9 +109,21 @@ export class AppService {
           takedown: createdTakedown,
           punishmentType: 1,
           amount: 3,
+          player: await this.playerService.getChampionPlayer(
+            takedownTemplate.killed,
+          ),
         };
 
-        this.punishmentService.createPunishment(punishmentTemplate);
+        await this.punishmentService.createPunishment(punishmentTemplate);
+        const rewardTemplate = {
+          takedown: createdTakedown,
+          rewardType: 1,
+          amount: 3,
+          player: await this.playerService.getChampionPlayer(
+            takedownTemplate.killer,
+          ),
+        };
+        await this.rewardService.createReward(rewardTemplate);
       }
     }
   }

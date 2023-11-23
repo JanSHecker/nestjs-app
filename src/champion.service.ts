@@ -41,4 +41,14 @@ export class ChampionService {
     };
     return champions;
   }
+  async getKDA(championId) {
+    const champstats = await this.championRepository
+      .createQueryBuilder('champion')
+      .where('champion.championId =:championID', { championID: championId })
+      .leftJoinAndSelect('champion.kills', 'kills')
+      .leftJoinAndSelect('champion.deaths', 'deaths')
+      .getOne();
+
+    return [(await champstats).kills.length, champstats.deaths.length];
+  }
 }

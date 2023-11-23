@@ -10,6 +10,7 @@ import {
 import { Event } from './event.entity';
 import { Champion } from './champion.entity';
 import { Punishment } from './punishment.entity';
+import { Reward } from './reward.entity';
 
 @Entity()
 export class Takedown {
@@ -35,6 +36,9 @@ export class Takedown {
   @JoinColumn()
   punishment: Punishment;
 
+  @OneToOne(() => Reward, { cascade: true })
+  @JoinColumn()
+  reward: Reward;
   @OneToOne(() => Event, (event) => event.takedown)
   event: Event;
 }

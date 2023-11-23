@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { Player } from './player.entity';
 import { Takedown } from './takedown.entity';
@@ -24,4 +25,7 @@ export class Punishment {
 
   @OneToOne(() => Takedown, (takedown) => takedown.punishment)
   takedown: Takedown;
+
+  @ManyToOne(() => Player, (player) => player.distributions)
+  distributor: Player;
 }

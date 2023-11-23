@@ -35,4 +35,7 @@ export class Player {
 
   @OneToMany(() => Reward, (reward) => reward.player)
   rewards: Reward[];
+
+  @OneToMany(() => Punishment, (punishment) => punishment.distributor)
+  distributions: Punishment[];
 }
