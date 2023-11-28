@@ -90,7 +90,6 @@ export class AppController {
       kda: await this.championService.getKDA(championId),
       enemyTeam: await this.championService.getTeamChampions(teamId),
     };
-    console.log(status);
     return status;
   }
 }
