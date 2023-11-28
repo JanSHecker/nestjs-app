@@ -20,6 +20,9 @@ export class Reward {
   @Column()
   rewardType: number;
 
+  @Column({ default: false })
+  distributed: boolean;
+
   @ManyToOne(() => Player, (player) => player.rewards)
   player: Player;
 

@@ -5,6 +5,7 @@ import { PlayerService } from './player.service';
 import { ChampionService } from './champion.service';
 import { GameService } from './game.service';
 import { PunishmentService } from './punishment.service';
+import { RewardService } from './reward.service';
 
 @Controller()
 export class AppController {
@@ -15,6 +16,7 @@ export class AppController {
     private readonly championService: ChampionService,
     private readonly gameService: GameService,
     private readonly punishmentService: PunishmentService,
+    private readonly rewardService: RewardService,
   ) {}
 
   @Get('lolInput')
@@ -62,5 +64,33 @@ export class AppController {
   @Get('kda')
   getKDA(@Query('id') champion) {
     return this.championService.getKDA(champion);
+  }
+  @Post('confirmPunishment')
+  confirmPunishment(@Body() punishment) {
+    this.punishmentService.confirmPunishment(punishment.id);
+  }
+  @Post('confirmReward')
+  confirmReward(@Body() reward) {
+    this.rewardService.confirmReward(reward);
+  }
+  @Get('getChangeCounters')
+  getChangeCounter(@Query('id') playerId) {
+    return this.playerService.getChangeCounters(playerId);
+  }
+  @Get('Status')
+  async getStatus(
+    @Query('playerId') playerId,
+    @Query('championId') championId,
+    @Query('enemyTeam') teamId,
+  ) {
+    const status = {
+      punishments: await this.punishmentService.getPunishments(playerId),
+      rewards: await this.rewardService.getRewards(playerId),
+      counter: await this.playerService.getChangeCounters(playerId),
+      kda: await this.championService.getKDA(championId),
+      enemyTeam: await this.championService.getTeamChampions(teamId),
+    };
+    console.log(status);
+    return status;
   }
 }

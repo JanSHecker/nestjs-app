@@ -55,6 +55,8 @@ export class PlayerService {
       .update(Player)
       .set({
         champion: playerChampionPair.champion,
+        killCounter: playerChampionPair.counter,
+        deathCounter: playerChampionPair.counter,
       })
       .where('playerId =:playerID', { playerID: playerChampionPair.player })
       .execute();
@@ -76,5 +78,52 @@ export class PlayerService {
         championID: champion.championId,
       })
       .getOne();
+  }
+
+  async updateChangeCounter(champion, isKiller) {
+    const priorChampion = await this.playerRepository
+      .createQueryBuilder('player')
+      .leftJoinAndSelect('player.champion', 'champion')
+      .where('player.champion =:championID', {
+        championID: champion.championId,
+      })
+      .getOne();
+    console.log(champion.player);
+    if (priorChampion !== null) {
+      if (isKiller) {
+        this.playerRepository
+          .createQueryBuilder('player')
+          .leftJoinAndSelect('player.champion', 'champion')
+          .update(Player)
+          .set({
+            killCounter: priorChampion.killCounter - 1,
+          })
+          .where('champion =:championID', {
+            championID: champion.championId,
+          })
+          .execute();
+      } else {
+        this.playerRepository
+          .createQueryBuilder('player')
+          .leftJoinAndSelect('player.champion', 'champion')
+          .update(Player)
+          .set({
+            deathCounter: priorChampion.deathCounter - 1,
+          })
+          .where('champion =:championID', {
+            championID: champion.championId,
+          })
+          .execute();
+      }
+    }
+  }
+  async getChangeCounters(id) {
+    const player = await this.playerRepository
+      .createQueryBuilder('player')
+      .where('player.playerId =:playerID', {
+        playerID: id,
+      })
+      .getOne();
+    return [player.killCounter, player.deathCounter];
   }
 }

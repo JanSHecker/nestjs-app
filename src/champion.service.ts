@@ -48,7 +48,14 @@ export class ChampionService {
       .leftJoinAndSelect('champion.kills', 'kills')
       .leftJoinAndSelect('champion.deaths', 'deaths')
       .getOne();
-
-    return [(await champstats).kills.length, champstats.deaths.length];
+    return [champstats.kills.length, champstats.deaths.length];
+  }
+  async getTeamChampions(teamId) {
+    const enemyTeam = await this.championRepository
+      .createQueryBuilder('champion')
+      .leftJoinAndSelect('champion.team', 'team')
+      .where('champion.team =:teamID', { teamID: teamId })
+      .getMany();
+    return enemyTeam;
   }
 }

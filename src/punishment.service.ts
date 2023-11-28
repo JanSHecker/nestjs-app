@@ -23,4 +23,16 @@ export class PunishmentService {
       .leftJoinAndSelect('takedown.killer', 'killer')
       .getMany();
   }
+  confirmPunishment(punishmentId) {
+    this.punishmentRepository
+      .createQueryBuilder('punishment')
+      .update()
+      .set({
+        recieved: true,
+      })
+      .where('punishmentId =:punishmentID', {
+        punishmentID: punishmentId,
+      })
+      .execute();
+  }
 }

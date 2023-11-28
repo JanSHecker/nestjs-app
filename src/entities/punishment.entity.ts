@@ -20,6 +20,9 @@ export class Punishment {
   @Column()
   punishmentType: number;
 
+  @Column({ default: false })
+  recieved: boolean;
+
   @ManyToOne(() => Player, (player) => player.punishments)
   player: Player;
 

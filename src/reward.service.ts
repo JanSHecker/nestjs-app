@@ -21,4 +21,16 @@ export class RewardService {
       .where('reward.player =:playerID', { playerID: playerId })
       .getMany();
   }
+  confirmReward(rewardId) {
+    this.rewardRepository
+      .createQueryBuilder('reward')
+      .update()
+      .set({
+        distributed: true,
+      })
+      .where('rewardId =:rewardID', {
+        rewardID: rewardId,
+      })
+      .execute();
+  }
 }

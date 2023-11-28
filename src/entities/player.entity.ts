@@ -21,6 +21,12 @@ export class Player {
   @Column()
   playerName: string;
 
+  @Column({ default: 0 })
+  killCounter: number;
+
+  @Column({ default: 0 })
+  deathCounter: number;
+
   @ManyToOne(() => Team, (team) => team.players)
   team: Team;
   @ManyToOne(() => Game, (game) => game.players)
