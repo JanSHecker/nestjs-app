@@ -2,16 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Player } from './entities/player.entity';
-import { PunishmentService } from './punishment.service';
-import { RewardService } from './reward.service';
 
 @Injectable()
 export class PlayerService {
   constructor(
     @InjectRepository(Player)
     private readonly playerRepository: Repository<Player>,
-    private readonly punishmentService: PunishmentService,
-    private readonly rewardService: RewardService,
   ) {}
 
   async createPlayer(playerData: Partial<Player>) {
@@ -62,20 +58,12 @@ export class PlayerService {
       .execute();
   }
 
-  async getPunishmentsAndRewards(playerId) {
-    const pNR = {
-      punishments: await this.punishmentService.getPunishments(playerId),
-      rewards: await this.rewardService.getRewards(playerId),
-    };
-
-    return pNR;
-  }
-  async getChampionPlayer(champion) {
+  async getChampionPlayer(championID) {
     return this.playerRepository
       .createQueryBuilder('player')
       .leftJoinAndSelect('player.champion', 'champion')
       .where('player.champion =:championID', {
-        championID: champion.championId,
+        championID,
       })
       .getOne();
   }
@@ -124,6 +112,8 @@ export class PlayerService {
         playerID: id,
       })
       .getOne();
-    return [player.killCounter, player.deathCounter];
+    if (player !== null) {
+      return [player.killCounter, player.deathCounter];
+    } else return '∞';
   }
 }

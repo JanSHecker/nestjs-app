@@ -24,6 +24,13 @@ export class ChampionService {
       .getOne();
     return champion;
   }
+  async getIDChampion(id) {
+    const champion = await this.championRepository
+      .createQueryBuilder('champion')
+      .where('champion.championId =:championID', { championID: id })
+      .getOne();
+    return champion;
+  }
   async getAllChampions(gameId) {
     const allChampions = await this.championRepository
       .createQueryBuilder('champion')
@@ -48,13 +55,16 @@ export class ChampionService {
       .leftJoinAndSelect('champion.kills', 'kills')
       .leftJoinAndSelect('champion.deaths', 'deaths')
       .getOne();
-    return [champstats.kills.length, champstats.deaths.length];
+    if (champstats !== null) {
+      return [champstats.kills.length, champstats.deaths.length];
+    } else return [0, 0, 0];
   }
   async getTeamChampions(teamId) {
     const enemyTeam = await this.championRepository
       .createQueryBuilder('champion')
       .leftJoinAndSelect('champion.team', 'team')
       .where('champion.team =:teamID', { teamID: teamId })
+      .leftJoinAndSelect('champion.player', 'player')
       .getMany();
     return enemyTeam;
   }

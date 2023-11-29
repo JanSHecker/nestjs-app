@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Reward } from './entities/reward.entity';
+import { PunishmentService } from './punishment.service';
+import { PlayerService } from './player.service';
 
 @Injectable()
 export class RewardService {
@@ -22,6 +24,8 @@ export class RewardService {
       .getMany();
   }
   confirmReward(rewardId) {
+    console.log('bin hier');
+    console.log({ rewardId });
     this.rewardRepository
       .createQueryBuilder('reward')
       .update()

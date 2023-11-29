@@ -21,6 +21,7 @@ import { PunishmentService } from './punishment.service';
 import { PlayerService } from './player.service';
 import { Reward } from './entities/reward.entity';
 import { RewardService } from './reward.service';
+import { DistributionService } from './distribution.service';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { RewardService } from './reward.service';
     PunishmentService,
     PlayerService,
     RewardService,
+    DistributionService,
   ],
 })
 export class AppModule {}

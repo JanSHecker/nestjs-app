@@ -6,6 +6,7 @@ import { ChampionService } from './champion.service';
 import { GameService } from './game.service';
 import { PunishmentService } from './punishment.service';
 import { RewardService } from './reward.service';
+import { DistributionService } from './distribution.service';
 
 @Controller()
 export class AppController {
@@ -17,6 +18,7 @@ export class AppController {
     private readonly gameService: GameService,
     private readonly punishmentService: PunishmentService,
     private readonly rewardService: RewardService,
+    private readonly distributionService: DistributionService,
   ) {}
 
   @Get('lolInput')
@@ -49,17 +51,14 @@ export class AppController {
   chooseChampion(@Body() playerChampionPair) {
     this.playerService.chooseChampion(playerChampionPair);
   }
-  @Get('Punishments&Rewards')
-  getPunishmentsAndRewards(@Query('id') player) {
-    return this.playerService.getPunishmentsAndRewards(player);
-  }
   @Post('Dummygame')
   createDummygame(@Body() game) {
     this.gameService.createDummygame(game.id);
   }
   @Post('createPunishment')
-  createPunishment(@Body() punishment) {
-    this.punishmentService.createPunishment(punishment);
+  distributePunishment(@Body() punishment) {
+    console.log(punishment);
+    this.distributionService.distributePunishment(punishment);
   }
   @Get('kda')
   getKDA(@Query('id') champion) {
@@ -71,7 +70,7 @@ export class AppController {
   }
   @Post('confirmReward')
   confirmReward(@Body() reward) {
-    this.rewardService.confirmReward(reward);
+    this.rewardService.confirmReward(reward.id);
   }
   @Get('getChangeCounters')
   getChangeCounter(@Query('id') playerId) {

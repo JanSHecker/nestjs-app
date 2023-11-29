@@ -110,7 +110,7 @@ export class AppService {
           punishmentType: 1,
           amount: 3,
           player: await this.playerService.getChampionPlayer(
-            takedownTemplate.killed,
+            takedownTemplate.killed.championId,
           ),
         };
 
@@ -120,7 +120,7 @@ export class AppService {
           rewardType: 1,
           amount: 3,
           player: await this.playerService.getChampionPlayer(
-            takedownTemplate.killer,
+            takedownTemplate.killer.championId,
           ),
         };
         await this.rewardService.createReward(rewardTemplate);
