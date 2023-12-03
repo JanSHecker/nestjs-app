@@ -19,4 +19,13 @@ export class TeamService {
     const team = this.teamRepository.create(teamData);
     return this.teamRepository.save(team);
   }
+
+  async getTeams(gameId: number): Promise<Team[]> {
+    const team = await this.teamRepository
+      .createQueryBuilder('team')
+      .leftJoinAndSelect('team.game', 'game')
+      .where('team.game.gameId =:gameID', { gameID: gameId })
+      .getMany();
+    return team;
+  }
 }

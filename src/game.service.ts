@@ -14,9 +14,16 @@ export class GameService {
     private readonly championService: ChampionService,
   ) {}
 
-  createGame(): Promise<Game> {
-    const game = this.gameRepository.create();
+  createGame(gameData: Partial<Game>): Promise<Game> {
+    const game = this.gameRepository.create(gameData);
     return this.gameRepository.save(game);
+  }
+  async getGame(id) {
+    const game = await this.gameRepository
+      .createQueryBuilder('game')
+      .where('game.gameId =:gameID', { gameID: id })
+      .getOne();
+    return game;
   }
 
   async createDummygame(gameId) {

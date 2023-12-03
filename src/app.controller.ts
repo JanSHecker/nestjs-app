@@ -7,6 +7,7 @@ import { GameService } from './game.service';
 import { PunishmentService } from './punishment.service';
 import { RewardService } from './reward.service';
 import { DistributionService } from './distribution.service';
+import { TeamService } from './team.service';
 
 @Controller()
 export class AppController {
@@ -19,6 +20,7 @@ export class AppController {
     private readonly punishmentService: PunishmentService,
     private readonly rewardService: RewardService,
     private readonly distributionService: DistributionService,
+    private readonly teamService: TeamService,
   ) {}
 
   @Get('lolInput')
@@ -27,17 +29,34 @@ export class AppController {
   }
 
   @Get('runGame')
-  runGame() {
-    this.appService.runGame();
-    return { message: 'The game is running!' };
+  async runGame(
+    @Query('punishmentAmount') pAmount,
+    @Query('rewardAmount') rAmount,
+    @Query('rotationMode') rotationMode,
+    @Query('defaultCounter') defaultCounter,
+  ) {
+    console.log('bin hier');
+    const gameTemplate = {
+      punishmentAmount: pAmount,
+      rewardAmount: rAmount,
+      rotationMode: rotationMode,
+      defaultRotationCounter: defaultCounter,
+    };
+    const game = await this.gameService.createGame(gameTemplate);
+    this.appService.runGame(game.gameId);
+    return game;
   }
   @Post('createPlayer')
   async createPlayer(@Body() playerData) {
     return await this.playerService.createPlayer(playerData);
   }
-  @Get('allPlayers')
-  getAllPlayers(@Query('id') gameId) {
-    return this.playerService.getAllPlayers(gameId);
+  @Get('getTeams')
+  async getTeams(@Query('id') gameId) {
+    const res = {
+      players: await this.playerService.getAllPlayers(gameId),
+      teams: await this.teamService.getTeams(gameId),
+    };
+    return res;
   }
   @Post('joinTeam')
   joinTeam(@Body() playerTeamPair) {
@@ -90,5 +109,9 @@ export class AppController {
       enemyTeam: await this.championService.getTeamChampions(teamId),
     };
     return status;
+  }
+  @Get('getSettings')
+  async getSettings(@Query('gameId') gameId) {
+    return await this.gameService.getGame(gameId);
   }
 }

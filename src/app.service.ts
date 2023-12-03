@@ -29,10 +29,10 @@ export class AppService {
     return 'Hello World!';
   }
 
-  async runGame() {
+  async runGame(gameID) {
     let gameEnded = false;
     let input = await this.lolApiService.getLolInput();
-    const game = await this.setUpTeams(input.allPlayers);
+    const game = await this.setUpTeams(input.allPlayers, gameID);
 
     while (!gameEnded) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -50,8 +50,8 @@ export class AppService {
     }
   }
 
-  async setUpTeams(champions: AllPlayer[]) {
-    let game = await this.gameService.createGame();
+  async setUpTeams(champions: AllPlayer[], gameId) {
+    let game = await this.gameService.getGame(gameId);
     const teamOrder = await this.teamService.createTeam(0, game);
     const teamChaos = await this.teamService.createTeam(1, game);
     game.teams = [teamOrder, teamChaos];

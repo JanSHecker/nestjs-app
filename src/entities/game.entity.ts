@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, OneToMany, Column } from 'typeorm';
 import { Event } from './event.entity';
 import { Team } from './team.entity';
 import { Player } from './player.entity';
@@ -7,6 +7,18 @@ import { Player } from './player.entity';
 export class Game {
   @PrimaryGeneratedColumn()
   gameId: number;
+
+  @Column()
+  punishmentAmount: number;
+
+  @Column()
+  rewardAmount: number;
+
+  @Column()
+  rotationMode: string;
+
+  @Column({ nullable: true })
+  defaultRotationCounter: number;
 
   @OneToMany(() => Event, (event) => event.game)
   events: Event[];
