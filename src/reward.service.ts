@@ -16,6 +16,13 @@ export class RewardService {
     const reward = this.rewardRepository.create(rewardData);
     return this.rewardRepository.save(reward);
   }
+  async getReward(rewardId): Promise<Reward> {
+    const reward = await this.rewardRepository
+      .createQueryBuilder('reward')
+      .where('reward.rewardId =:rewardID', { rewardID: rewardId })
+      .getOne();
+    return reward;
+  }
   async getRewards(playerId) {
     return await this.rewardRepository
       .createQueryBuilder('reward')

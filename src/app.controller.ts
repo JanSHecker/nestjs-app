@@ -76,7 +76,6 @@ export class AppController {
   }
   @Post('createPunishment')
   distributePunishment(@Body() punishment) {
-    console.log(punishment);
     this.distributionService.distributePunishment(punishment);
   }
   @Get('kda')
@@ -89,6 +88,7 @@ export class AppController {
   }
   @Post('confirmReward')
   confirmReward(@Body() reward) {
+    this.distributionService.distributePunishment(reward);
     this.rewardService.confirmReward(reward.id);
   }
   @Get('getChangeCounters')
