@@ -35,7 +35,6 @@ export class AppController {
     @Query('rotationMode') rotationMode,
     @Query('defaultCounter') defaultCounter,
   ) {
-    console.log('bin hier');
     const gameTemplate = {
       punishmentAmount: pAmount,
       rewardAmount: rAmount,
@@ -44,6 +43,7 @@ export class AppController {
     };
     const game = await this.gameService.createGame(gameTemplate);
     this.appService.runGame(game.gameId);
+    console.log(`A new game was created with ID ${game.gameId}`);
     return game;
   }
   @Post('createPlayer')
