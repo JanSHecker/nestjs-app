@@ -116,4 +116,12 @@ export class PlayerService {
       return [player.killCounter, player.deathCounter];
     } else return '∞';
   }
+  async deletePlayer(id) {
+    await this.playerRepository
+      .createQueryBuilder('player')
+      .delete()
+      .from(Player)
+      .where('playerId =:ID', { ID: id })
+      .execute();
+  }
 }

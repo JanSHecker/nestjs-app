@@ -114,4 +114,8 @@ export class AppController {
   async getSettings(@Query('gameId') gameId) {
     return await this.gameService.getGame(gameId);
   }
+  @Post('deletePlayer')
+  deletePlayer(@Body() player) {
+    this.playerService.deletePlayer(player.id);
+  }
 }

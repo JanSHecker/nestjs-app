@@ -11,9 +11,7 @@ export class PunishmentService {
   ) {}
 
   createPunishment(punishmentData: Partial<Punishment>): Promise<Punishment> {
-    console.log({ punishmentData });
     const punishment = this.punishmentRepository.create(punishmentData);
-    console.log({ punishment });
     return this.punishmentRepository.save(punishment);
   }
   async getPunishments(playerId) {
