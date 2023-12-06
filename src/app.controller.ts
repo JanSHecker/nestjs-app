@@ -27,6 +27,10 @@ export class AppController {
   getHello(): object {
     return this.lolApiService.getLolInput();
   }
+  @Post('sendLoLInput')
+  recieveLoLInput(@Body() input) {
+    this.lolApiService.saveLolInput(input);
+  }
 
   @Get('runGame')
   async runGame(

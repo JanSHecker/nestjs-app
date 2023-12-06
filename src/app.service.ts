@@ -31,7 +31,7 @@ export class AppService {
 
   async runGame(gameID) {
     let gameEnded = false;
-    let input = await this.lolApiService.getLolInput();
+    let input = await this.lolApiService.readLolInput();
     const game = await this.setUpTeams(input.allPlayers, gameID);
 
     while (!gameEnded) {
