@@ -37,7 +37,7 @@ export class AppService {
     while (!gameEnded) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       const priorInput = input;
-      input = await this.lolApiService.getLolInput();
+      input = await this.lolApiService.readLolInput();
 
       const newEvents = this.filterNewEvents(
         input.events.Events,
