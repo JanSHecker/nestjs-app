@@ -12,12 +12,14 @@ export class DistributionService {
   ) {}
 
   async distributePunishment(reward) {
+    console.log({ reward });
     const dbReward = await this.rewardService.getReward(reward.id);
     console.log({ dbReward });
     if (dbReward.distributed === false) {
       const distributor = await this.playerService.getChampionPlayer(
         reward.punishment.distributor,
       );
+      console.log({ distributor });
       const punishmentData = {
         amount: parseInt(reward.punishment.amount),
         punishmentType: reward.punishment.punishmentType,
