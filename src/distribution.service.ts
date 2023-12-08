@@ -16,7 +16,7 @@ export class DistributionService {
     const dbReward = await this.rewardService.getReward(reward.id);
     console.log({ dbReward });
     if (dbReward.distributed === false) {
-      const distributor = await this.playerService.getChampionPlayer(
+      const distributor = await this.playerService.getPlayerById(
         reward.punishment.distributor,
       );
       console.log({ distributor });
@@ -24,10 +24,10 @@ export class DistributionService {
         amount: parseInt(reward.punishment.amount),
         punishmentType: reward.punishment.punishmentType,
         distributor: distributor,
-        takedown: null,
         player: reward.punishment.recipient,
       };
-      this.punishmentService.createPunishment(punishmentData);
+      await this.punishmentService.createPunishment(punishmentData);
+      console.log('punishment created');
     }
   }
 }

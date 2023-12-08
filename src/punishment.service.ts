@@ -11,6 +11,7 @@ export class PunishmentService {
   ) {}
 
   createPunishment(punishmentData: Partial<Punishment>): Promise<Punishment> {
+    console.log({ punishmentData });
     const punishment = this.punishmentRepository.create(punishmentData);
     return this.punishmentRepository.save(punishment);
   }
@@ -21,6 +22,7 @@ export class PunishmentService {
       .where('punishment.player =:playerID', { playerID: playerId })
       .leftJoinAndSelect('punishment.takedown', 'takedown')
       .leftJoinAndSelect('takedown.killer', 'killer')
+      .leftJoinAndSelect('punishment.distributor', 'distributor')
       .getMany();
   }
   confirmPunishment(punishmentId) {

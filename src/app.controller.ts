@@ -91,8 +91,8 @@ export class AppController {
     this.punishmentService.confirmPunishment(punishment.id);
   }
   @Post('confirmReward')
-  confirmReward(@Body() reward) {
-    this.distributionService.distributePunishment(reward);
+  async confirmReward(@Body() reward) {
+    await this.distributionService.distributePunishment(reward);
     this.rewardService.confirmReward(reward.id);
   }
   @Get('getChangeCounters')

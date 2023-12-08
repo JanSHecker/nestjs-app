@@ -35,6 +35,13 @@ export class PlayerService {
     };
     return players;
   }
+  async getPlayerById(id): Promise<Player> {
+    const player = await this.playerRepository
+      .createQueryBuilder('player')
+      .where('player.playerId =:playerID', { playerID: id })
+      .getOne();
+    return player;
+  }
   async joinTeam(playerId, teamId) {
     await this.playerRepository
       .createQueryBuilder('player')
