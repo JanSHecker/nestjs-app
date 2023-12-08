@@ -30,9 +30,32 @@ export class LolAPIService {
     });
   }
   async readLolInput(): Promise<AllGameDataResponse> {
-    const data = JSON.parse(
-      fs.readFileSync(this.LOL_INPUT_PATH, 'utf-8'),
-    ) as AllGameDataResponse;
+    const maxAttempts = 3;
+    let attemptCounter = 0;
+    let data;
+
+    for (let i = 0; i < maxAttempts; i++) {
+      try {
+        data = JSON.parse(
+          fs.readFileSync(this.LOL_INPUT_PATH, 'utf-8'),
+        ) as AllGameDataResponse;
+
+        // If parsing is successful, break out of the loop
+        break;
+      } catch (error) {
+        // Handle the error if needed
+        console.error(
+          `Error reading/parsing data on attempt ${attemptCounter + 1}: ${
+            error.message
+          }`,
+        );
+
+        // Increment the attempt counter
+        attemptCounter++;
+
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+    }
     return data;
   }
 }
