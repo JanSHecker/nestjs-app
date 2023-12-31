@@ -46,6 +46,7 @@ export class ChampionService {
         return champion.team.teamName === 1;
       }),
     };
+    console.log(champions);
     return champions;
   }
   async getKDA(championId) {
